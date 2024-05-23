@@ -107,6 +107,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // GET route to retrieve bookings (for testing purposes)
 app.get('/api/bookings', (req, res) => {
     res.json(bookings);
