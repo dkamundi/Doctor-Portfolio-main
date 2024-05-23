@@ -103,7 +103,7 @@ app.post('/api/book', (req, res) => {
 });
 
 // Serve the HTML file for the root route
-app.get('/index.html', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
