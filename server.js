@@ -124,6 +124,10 @@ app.get('/scope.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'scope.html'));
 });
 
+app.get('/Livia-MediSpa.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Livia-MediSpa.html'));
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
