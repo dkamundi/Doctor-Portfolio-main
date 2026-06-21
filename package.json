@@ -1,11 +1,19 @@
 {
   "dependencies": {
+    "axios": "^1.16.0",
     "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.8",
     "express": "^4.19.2",
-    "nodemailer": "^6.9.13"
+    "nodemailer": "^6.9.13",
+    "react-bootstrap": "^2.10.10",
+    "swiper": "^12.1.4"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev:server": "nodemon server.js",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm --prefix client run build"
   },
   "name": "doctor-portfolio-main",
   "description": "Doctor Portfolio with Html CSS Js",
@@ -13,5 +21,9 @@
   "main": "server.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14"
+  }
 }

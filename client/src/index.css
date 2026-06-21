@@ -1,0 +1,15 @@
+@import url('/css/bootstrap-icons.css');
+@import url('/css/dp.css');
+@import url('/css/custom.css');
+@import url('/css/gallery.css');
+
+:root {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}

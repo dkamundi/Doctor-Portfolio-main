@@ -5,24 +5,23 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/js', express.static(path.join(__dirname, 'js')));
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// CORS middleware for development
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
-// Serve static files from the 'css' directory
-app.use('/css', express.static(path.join(__dirname, 'css')));
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
-// Serve static files from the 'fonts' directory
-app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
-
-// Serve static files from the 'images' directory
-app.use('/images', express.static(path.join(__dirname, 'images')));
+const clientDistPath = path.join(__dirname, 'client', 'dist');
 
 // In-memory storage for bookings
 let bookings = [];
@@ -102,31 +101,22 @@ app.post('/api/book', (req, res) => {
     });
 });
 
-// Serve the HTML file for the root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 // GET route to retrieve bookings (for testing purposes)
 app.get('/api/bookings', (req, res) => {
     res.json(bookings);
 });
 
-app.get('/gallery.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'gallery.html'));
-});
+if (fs.existsSync(clientDistPath)) {
+    app.use(express.static(clientDistPath));
 
-app.get('/scope.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'scope.html'));
-});
-
-app.get('/Livia-MediSpa.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Livia-MediSpa.html'));
-});
+    app.get(/^\/(?!api\/).*/, (req, res) => {
+        res.sendFile(path.join(clientDistPath, 'index.html'));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.send('React frontend not built yet. Run "npm run dev" for development or "npm run build" to build the client.');
+    });
+}
 
 // Start the server
 app.listen(port, () => {
